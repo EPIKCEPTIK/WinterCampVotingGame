@@ -14,15 +14,15 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
     }
 
-    // Переконаємося, що votes є об'єктом, а не масивом
+
     const formattedVotes = votes && typeof votes === "object" ? votes : {};
 
     const joke = new Joke({
       id,
       question,
       answer,
-      votes: formattedVotes, // Виправлено
-      availableVotes: availableVotes || ["😂", "👍", "❤️"] // Виправлено
+      votes: formattedVotes, 
+      availableVotes: availableVotes || ["😂", "👍", "❤️"] 
     });
 
     await joke.save();
