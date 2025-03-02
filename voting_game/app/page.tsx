@@ -73,6 +73,12 @@ export default function HomePage() {
     });
   };
 
+
+  const resetVotes = () => {
+    setVotes({});
+    setJoke((prev) => (prev ? { ...prev, votes: {} } : prev));
+  };
+
   // Fetch a joke on initial render
   useEffect(() => {
     getNewJoke();
@@ -85,12 +91,18 @@ export default function HomePage() {
         {loading ? (
           <Text>Loading...</Text>
         ) : joke ? (
-          <Card shadow="sm" padding="lg" radius="md" withBorder style={{ width: 400, textAlign: "center" }}>
-            {/* Display joke question and answer */}
+          <Card
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            style={{ width: 400, textAlign: "center" }}
+          >
+
             <Text fw={500} size="lg">{joke.question}</Text>
             <Text size="md" mt="sm">{joke.answer}</Text>
 
-            {/* Reaction buttons */}
+
             <Group justify="flex-end" mt="md">
               {availableReactions.map((emoji) => (
                 <Button key={emoji} onClick={() => voteJoke(emoji)}>
@@ -99,10 +111,15 @@ export default function HomePage() {
               ))}
             </Group>
 
-            {/* Button to fetch a new joke */}
-            <Button mt="md" color="gray" onClick={saveJokeToDB} fullWidth>
-              Another Joke
-            </Button>
+
+            <Group mt="md">
+              <Button color="gray" onClick={saveJokeToDB} fullWidth>
+                Another Joke
+              </Button>
+              <Button color="red" onClick={resetVotes} fullWidth>
+                Reset Reactions
+              </Button>
+            </Group>
           </Card>
         ) : (
           <Text>No joke found 😢</Text>
